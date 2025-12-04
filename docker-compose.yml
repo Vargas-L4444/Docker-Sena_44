@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  web:
+    image: php:8.1-apache
+    ports:
+      - "80:80"
+    volumes:
+      - ./app_3dic:/var/www/html
+    environment:
+      - PHP_MAX_EXECUTION_TIME=300
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: "4477"
+      MYSQL_DATABASE: "prueba_darwin"
+      MYSQL_CHARACTER_SET_SERVER: utf8mb4
+      MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./app_3dic/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: "4477"
+      PMA_DB: "prueba_darwin"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+volumes:
+  db-data:
+
+networks:
+  app-network:
+    driver: bridge
