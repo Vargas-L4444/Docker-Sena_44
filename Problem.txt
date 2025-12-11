@@ -1,0 +1,7 @@
+crear un crud con php utilizando una 
+base de datos y que esta se muestre 
+en phpmyadmin, los otros deben 
+quedarse en un volumen a pesar 
+de q el contenedor se borre la 
+entidad es usuario (nombre, apellido, 
+correo, edad, genero).
